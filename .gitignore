@@ -1,29 +1,62 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+# Dependencies
+node_modules/
+venv/
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Build outputs
+dist/
+out/
+.output/
+build/
 
 # Environment variables
 .env
 .env.local
-.env.*.local
+.dev.vars.local
+
+# Cloudflare
+.wrangler/
+wrangler.toml.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+log/
+logs/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+temp-*/
+*.tmp
+*.temp
+
+# Cache
+.cache/
+cache/
+.parcel-cache/
+
+# Testing
+coverage/
+.nyc_output/
+
+# ⚠️ 注意: sites/ フォルダは除外しない（記事公開用）
+# sites/ フォルダはLovable-Auto-Blogリポジトリにプッシュする必要があります
