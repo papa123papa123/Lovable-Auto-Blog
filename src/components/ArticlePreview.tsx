@@ -324,12 +324,64 @@ export const ArticlePreview = ({
   const previewUrl = useMemo(() => {
     if (!article?.htmlContent) return null;
     
-    const blob = new Blob([article.htmlContent], {
+    let htmlContent = article.htmlContent;
+    
+    // 🔍 相対パスを絶対URLに置換（プレビュー用）
+    if (article.eyecatchImagePreview) {
+      // アイキャッチ画像のPC版
+      htmlContent = htmlContent.replace(
+        /srcset="images\/eyecatch-800\.webp"/g,
+        `srcset="${article.eyecatchImagePreview.pc}"`
+      );
+      htmlContent = htmlContent.replace(
+        /src="images\/eyecatch-800\.webp"/g,
+        `src="${article.eyecatchImagePreview.pc}"`
+      );
+      
+      // アイキャッチ画像のモバイル版
+      htmlContent = htmlContent.replace(
+        /srcset="images\/eyecatch-350\.webp"/g,
+        `srcset="${article.eyecatchImagePreview.mobile}"`
+      );
+      htmlContent = htmlContent.replace(
+        /src="images\/eyecatch-350\.webp"/g,
+        `src="${article.eyecatchImagePreview.mobile}"`
+      );
+    }
+    
+    // セクション画像の置換
+    if (article.sectionImagesPreview) {
+      article.sectionImagesPreview.forEach((img, index) => {
+        if (img) {
+          const sectionNum = index + 1;
+          // PC版
+          htmlContent = htmlContent.replace(
+            new RegExp(`srcset="images/section-${sectionNum}-800\\.webp"`, 'g'),
+            `srcset="${img.pc}"`
+          );
+          htmlContent = htmlContent.replace(
+            new RegExp(`src="images/section-${sectionNum}-800\\.webp"`, 'g'),
+            `src="${img.pc}"`
+          );
+          // モバイル版
+          htmlContent = htmlContent.replace(
+            new RegExp(`srcset="images/section-${sectionNum}-350\\.webp"`, 'g'),
+            `srcset="${img.mobile}"`
+          );
+          htmlContent = htmlContent.replace(
+            new RegExp(`src="images/section-${sectionNum}-350\\.webp"`, 'g'),
+            `src="${img.mobile}"`
+          );
+        }
+      });
+    }
+    
+    const blob = new Blob([htmlContent], {
       type: "text/html"
     });
     const url = URL.createObjectURL(blob);
     return url;
-  }, [article?.htmlContent]);
+  }, [article?.htmlContent, article?.eyecatchImagePreview, article?.sectionImagesPreview]);
   if (!article) {
     return <div className="glass-card h-full flex flex-col items-center justify-center p-8">
         <div className="w-20 h-20 rounded-2xl bg-muted/50 flex items-center justify-center mb-6">

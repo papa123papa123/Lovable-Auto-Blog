@@ -115,7 +115,18 @@ def extract_amazon_products_with_details(html_path: Path) -> List[Dict[str, str]
             image_url = ""
             img = item.find("img", class_=re.compile(r"s-image"))
             if img:
-                image_url = img.get("src", "")
+                raw_url = img.get("src", "")
+                # 相対パスまたはローカルパスの場合、Amazon CDNのURLに変換
+                if raw_url.startswith("./") or "_files/" in raw_url:
+                    # ファイル名から画像IDを抽出（例: 81YSJXsB8NL._AC_UL320_.jpg）
+                    image_filename_match = re.search(r'([A-Z0-9+_-]{10,}\.[A-Z0-9_.-]+\.jpg)', raw_url, re.IGNORECASE)
+                    if image_filename_match:
+                        image_filename = image_filename_match.group(1)
+                        image_url = f"https://m.media-amazon.com/images/I/{image_filename}"
+                    else:
+                        image_url = ""
+                else:
+                    image_url = raw_url
             
             # 価格抽出
             price = ""
