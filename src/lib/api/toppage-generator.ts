@@ -148,13 +148,16 @@ const TOPPAGE_TEMPLATE = `<!doctype html>
 /**
  * 記事カードHTMLを生成
  */
-function generateArticleCard(article: ArticleMetadata): string {
+function generateArticleCard(article: ArticleMetadata, index: number = 0): string {
   // OGP画像を使用（なければプレースホルダー）
   const imageUrl = article.ogImage || `https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=200&fit=crop`;
   
+  // 最初の3枚の画像は fetchpriority="high" を設定（LCP最適化）
+  const loadingAttr = index < 3 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
+  
   return `
             <a href="${article.url}" class="article-card">
-              <img src="${imageUrl}" alt="${escapeHtml(article.title)}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=200&fit=crop'">
+              <img src="${imageUrl}" alt="${escapeHtml(article.title)}" ${loadingAttr} onerror="this.src='https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=200&fit=crop'">
               <div class="article-card-content">
                 <span class="article-category">${article.category}</span>
                 <h3>${escapeHtml(article.title)}</h3>
@@ -211,10 +214,10 @@ export function generateToppageHtml(
 
   // 最新記事（最大6件）
   const latestArticles = articles.slice(0, 6);
-  const latestArticlesHtml = latestArticles.map(generateArticleCard).join('\n');
+  const latestArticlesHtml = latestArticles.map((article, index) => generateArticleCard(article, index)).join('\n');
   
   // 全記事
-  const allArticlesHtml = articles.map(generateArticleCard).join('\n');
+  const allArticlesHtml = articles.map((article, index) => generateArticleCard(article, index)).join('\n');
 
   let html = TOPPAGE_TEMPLATE;
   

@@ -928,7 +928,7 @@ export const articleGeneratorApi = {
       html += `    <picture>
       <source media="(max-width: 768px)" srcset="${eyecatchImage.mobile}" type="image/webp">
       <source media="(min-width: 769px)" srcset="${eyecatchImage.pc}" type="image/webp">
-      <img src="${eyecatchImage.pc}" alt="${outline.title}" class="eyecatch" width="800" height="450" loading="eager" />
+      <img src="${eyecatchImage.pc}" alt="${outline.title}" class="eyecatch" width="800" height="450" loading="eager" fetchpriority="high" />
     </picture>\n`;
     }
 
