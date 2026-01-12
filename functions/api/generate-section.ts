@@ -220,12 +220,24 @@ export const onRequestOptions: PagesFunction = async () => {
   return optionsResponse();
 };
 
+interface KeywordResearchData {
+  paaQuestions: string[];
+  relatedSearches: string[];
+  suggestions: string[];
+  topResults: Array<{
+    title: string;
+    url: string;
+    description: string;
+  }>;
+}
+
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   try {
-    const { keyword, outline, sectionIndex } = await context.request.json() as {
+    const { keyword, outline, sectionIndex, researchData } = await context.request.json() as {
       keyword?: string;
       outline?: ArticleOutline;
       sectionIndex?: number;
+      researchData?: KeywordResearchData;
     };
 
     if (!keyword || !outline) {
@@ -245,11 +257,23 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
     console.log(`Generating content for section ${(sectionIndex ?? 0) + 1}: ${section.title}`);
 
-    // EETを満たす権威性サイトの個別ページを検索
-    const h3Titles = section.h3Headings || [];
-    const firecrawlApiKey = context.env.FIRECRAWL_API_KEY;
-    const authoritativeUrls = await searchAuthoritativeUrls(keyword, h3Titles, firecrawlApiKey);
-    console.log(`Found ${authoritativeUrls.length} authoritative URLs for section`);
+    // キーワードリサーチの結果から外部リンクを取得（既存のtopResultsを再利用）
+    let authoritativeUrls: SearchedUrl[] = [];
+    if (researchData?.topResults && researchData.topResults.length > 0) {
+      // topResultsをそのまま使用（信頼できるドメインのフィルタリングは省略）
+      authoritativeUrls = researchData.topResults.map(result => ({
+        title: result.title,
+        url: result.url,
+        description: result.description
+      }));
+      console.log(`Using ${authoritativeUrls.length} URLs from keyword research topResults`);
+    } else {
+      // フォールバック：キーワードリサーチ結果がない場合のみ、追加検索
+      const h3Titles = section.h3Headings || [];
+      const firecrawlApiKey = context.env.FIRECRAWL_API_KEY;
+      authoritativeUrls = await searchAuthoritativeUrls(keyword, h3Titles, firecrawlApiKey);
+      console.log(`Fallback: Found ${authoritativeUrls.length} authoritative URLs via search`);
+    }
 
     const now = new Date();
     const currentYear = now.getFullYear();

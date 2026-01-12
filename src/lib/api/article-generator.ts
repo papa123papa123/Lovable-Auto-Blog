@@ -268,11 +268,12 @@ export const articleGeneratorApi = {
   async generateSection(
     keyword: string,
     outline: ArticleOutline,
-    sectionIndex: number
+    sectionIndex: number,
+    researchData?: KeywordResearchData
   ): Promise<ApiResponse<GeneratedSection>> {
     return callApi<GeneratedSection>(
       "generate-section",
-      { keyword, outline, sectionIndex },
+      { keyword, outline, sectionIndex, researchData },
       "generate-section"
     );
   },
@@ -476,7 +477,7 @@ export const articleGeneratorApi = {
             await new Promise(resolve => setTimeout(resolve, 2000 * retry));
           }
           
-          sectionResult = await this.generateSection(keyword, outline, index);
+          sectionResult = await this.generateSection(keyword, outline, index, researchData);
           
           if (sectionResult.success && sectionResult.data) {
             console.log(`✅ [generateFullArticle] セクション ${index + 1} (H2-${index + 1}) 生成成功:`, {
