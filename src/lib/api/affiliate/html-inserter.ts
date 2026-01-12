@@ -80,6 +80,22 @@ export function getPochippStyles(): string {
       margin: 6px 0;
       letter-spacing: 0.02em;
     }
+    .pochipp-price.kindle-unlimited {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .ku-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #0066c0 0%, #0099ff 100%);
+      color: white;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
     .pochipp-buttons {
       display: flex;
       gap: 8px;
@@ -133,6 +149,10 @@ export function getPochippStyles(): string {
         font-size: 1rem;
         margin: 4px 0;
       }
+      .ku-badge {
+        font-size: 0.6875rem;
+        padding: 2px 6px;
+      }
       .pochipp-btn {
         padding: 12px 16px;
         font-size: 0.875rem;
@@ -146,9 +166,17 @@ export function getPochippStyles(): string {
  */
 export function generatePochippHtml(product: ProductInfo): string {
   // 価格を3桁カンマ区切りにフォーマット
-  const formattedPrice = product.price 
-    ? Number(product.price).toLocaleString('ja-JP')
-    : '';
+  const priceNum = product.price ? Number(product.price) : 0;
+  let priceHtml = '';
+  
+  if (priceNum === 0) {
+    // 価格が0円の場合、Kindle Unlimitedバッジを表示
+    priceHtml = '<div class="pochipp-price kindle-unlimited">¥0 <span class="ku-badge">Kindle Unlimited</span></div>';
+  } else if (priceNum > 0) {
+    // 通常の価格表示
+    const formattedPrice = priceNum.toLocaleString('ja-JP');
+    priceHtml = `<div class="pochipp-price">¥${formattedPrice}</div>`;
+  }
   
   return `
     <div class="pochipp-box">
@@ -158,7 +186,7 @@ export function generatePochippHtml(product: ProductInfo): string {
         </div>
         <div class="pochipp-info">
           <div class="pochipp-title">${product.title}</div>
-          ${formattedPrice ? `<div class="pochipp-price">¥${formattedPrice}</div>` : ''}
+          ${priceHtml}
         </div>
       </div>
       <div class="pochipp-buttons">
