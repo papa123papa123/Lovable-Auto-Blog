@@ -770,31 +770,64 @@
     
     /* 関連記事セクション */
     .related-articles {
-      background: #f8fafc;
-      border-radius: 16px;
-      padding: 24px;
       margin: 40px 0;
-      border: 1px solid #e2e8f0;
     }
     .related-articles h3 {
-      font-size: 1.125rem;
-      color: #1e293b;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .related-articles h3::before {
-      content: "📚";
-    }
-    .related-placeholder {
-      color: #94a3b8;
-      font-size: 0.875rem;
+      font-size: 1.5rem;
+      color: #FF6B9D;
+      margin-bottom: 24px;
       text-align: center;
-      padding: 20px;
+    }
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .article-card {
       background: white;
-      border-radius: 8px;
-      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .article-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+    }
+    .article-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .article-card-content {
+      padding: 1.5rem;
+    }
+    .article-category {
+      display: inline-block;
+      background: #FF6B9D;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+    .article-card h4 {
+      font-size: 1.125rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+      line-height: 1.4;
+    }
+    .article-date {
+      font-size: 0.875rem;
+      color: #666;
+    }
+    @media (max-width: 768px) {
+      .article-grid {
+        grid-template-columns: 1fr;
+      }
     }
   
   </style>
@@ -2146,8 +2179,39 @@ TikTokや電子書籍は<mark class="marker-orange"><strong>縦向き</strong></
   
     <div class="related-articles">
       <h3>関連記事</h3>
-      <div class="related-placeholder">
-        関連記事は今後追加されます。
+      <div class="article-grid">
+        <a href="/articles/ipad-cases/" class="article-card">
+          <img src="https://comic-review-navi.com/articles/ipad-cases/images/eyecatch-350.webp" alt="iPadケース選びで迷ったら？裸で使うリスクや100均の品質、世代別の互換性を徹底解説" loading="lazy">
+          <div class="article-card-content">
+            <span class="article-category">グッズレビュー</span>
+            <h4>iPadケース選びで迷ったら？裸で使うリスクや100均の品質、世代別の互換性を徹底解説</h4>
+            <p class="article-date">2026-01-18</p>
+          </div>
+        </a>
+        <a href="/articles/iphone-latest-2026.01.15.2235/" class="article-card">
+          <img src="https://comic-review-navi.com/articles/iphone-latest-2026.01.15.2235/images/eyecatch-350.webp" alt="iPhoneの選び方で失敗しない？あなたに最適なモデルを徹底解説" loading="lazy">
+          <div class="article-card-content">
+            <span class="article-category">グッズレビュー</span>
+            <h4>iPhoneの選び方で失敗しない？あなたに最適なモデルを徹底解説</h4>
+            <p class="article-date">2026-01-15</p>
+          </div>
+        </a>
+        <a href="/articles/laptop-asus-gaming-2026.01.18.0046/" class="article-card">
+          <img src="https://comic-review-navi.com/articles/laptop-asus-gaming-2026.01.18.0046/images/eyecatch-350.webp" alt="ASUSゲーミングノートパソコン選び方：失敗しないための疑問を解決" loading="lazy">
+          <div class="article-card-content">
+            <span class="article-category">グッズレビュー</span>
+            <h4>ASUSゲーミングノートパソコン選び方：失敗しないための疑問を解決</h4>
+            <p class="article-date">2026-01-18</p>
+          </div>
+        </a>
+        <a href="/articles/kimetsu-free/" class="article-card">
+          <img src="https://comic-review-navi.com/articles/kimetsu-free/images/eyecatch-350.webp" alt="「鬼滅の刃」の漫画を無料違法サイトで開いたら？見るだけで捕まるリスクや対処法を解説" loading="lazy">
+          <div class="article-card-content">
+            <span class="article-category">グッズレビュー</span>
+            <h4>「鬼滅の刃」の漫画を無料違法サイトで開いたら？見るだけで捕まるリスクや対処法を解説</h4>
+            <p class="article-date">2026-01-18</p>
+          </div>
+        </a>
       </div>
     </div>
     </article>

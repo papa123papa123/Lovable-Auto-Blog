@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -831,31 +831,64 @@
     
     /* 関連記事セクション */
     .related-articles {
-      background: #f8fafc;
-      border-radius: 16px;
-      padding: 24px;
       margin: 40px 0;
-      border: 1px solid #e2e8f0;
     }
     .related-articles h3 {
-      font-size: 1.125rem;
-      color: #1e293b;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .related-articles h3::before {
-      content: "📚";
-    }
-    .related-placeholder {
-      color: #94a3b8;
-      font-size: 0.875rem;
+      font-size: 1.5rem;
+      color: #FF6B9D;
+      margin-bottom: 24px;
       text-align: center;
-      padding: 20px;
+    }
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .article-card {
       background: white;
-      border-radius: 8px;
-      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .article-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+    }
+    .article-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .article-card-content {
+      padding: 1.5rem;
+    }
+    .article-category {
+      display: inline-block;
+      background: #FF6B9D;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+    .article-card h4 {
+      font-size: 1.125rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+      line-height: 1.4;
+    }
+    .article-date {
+      font-size: 0.875rem;
+      color: #666;
+    }
+    @media (max-width: 768px) {
+      .article-grid {
+        grid-template-columns: 1fr;
+      }
     }
   
   </style>
@@ -2573,8 +2606,39 @@ zipファイルなどはウイルス源。
   
     <div class="related-articles">
       <h3>関連記事</h3>
-      <div class="related-placeholder">
-        関連記事は今後追加されます。
+      <div class="article-grid">
+        <a href="/articles/ipad-case/" class="article-card">
+          <img src="https://comic-review-navi.com/articles/ipad-case/images/eyecatch-350.webp" alt="iPadケース選びの安心基準｜100均や非純正の安全性、サイズ・熱・ペンシルの疑問を解決" loading="lazy">
+          <div class="article-card-content">
+            <span class="article-category">グッズレビュー</span>
+            <h4>iPadケース選びの安心基準｜100均や非純正の安全性、サイズ・熱・ペンシルの疑問を解決</h4>
+            <p class="article-date">2026-01-18</p>
+          </div>
+        </a>
+        <a href="/articles/ipad-cases/" class="article-card">
+          <img src="https://comic-review-navi.com/articles/ipad-cases/images/eyecatch-350.webp" alt="iPadケース選びで迷ったら？裸で使うリスクや100均の品質、世代別の互換性を徹底解説" loading="lazy">
+          <div class="article-card-content">
+            <span class="article-category">グッズレビュー</span>
+            <h4>iPadケース選びで迷ったら？裸で使うリスクや100均の品質、世代別の互換性を徹底解説</h4>
+            <p class="article-date">2026-01-18</p>
+          </div>
+        </a>
+        <a href="/articles/manga-allfree/" class="article-card">
+          <img src="https://comic-review-navi.com/articles/manga-allfree/images/eyecatch-350.webp" alt="漫画を全話無料公開期間限定で楽しむ！違法性やウイルス、料金の不安を解消する完全ガイド" loading="lazy">
+          <div class="article-card-content">
+            <span class="article-category">少年漫画</span>
+            <h4>漫画を全話無料公開期間限定で楽しむ！違法性やウイルス、料金の不安を解消する完全ガイド</h4>
+            <p class="article-date">2026-01-18</p>
+          </div>
+        </a>
+        <a href="/articles/the-rose-of-versailles-manga-free-2026.01.19.0051/" class="article-card">
+          <img src="https://comic-review-navi.com/articles/the-rose-of-versailles-manga-free-2026.01.19.0051/images/eyecatch-350.webp" alt="「ベルサイユのばら」の漫画を無料で読むには？安全な方法を解説！" loading="lazy">
+          <div class="article-card-content">
+            <span class="article-category">少年漫画</span>
+            <h4>「ベルサイユのばら」の漫画を無料で読むには？安全な方法を解説！</h4>
+            <p class="article-date">2026-01-18</p>
+          </div>
+        </a>
       </div>
     </div>
     </article>
