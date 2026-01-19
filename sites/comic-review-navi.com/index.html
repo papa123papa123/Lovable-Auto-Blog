@@ -114,11 +114,6 @@
         line-height: 1.4;
       }
 
-      .article-date {
-        font-size: 0.875rem;
-        color: #666;
-      }
-
       footer {
         background: #333;
         color: white;
@@ -159,61 +154,8 @@
       <section>
         <div class="container">
           <h2>📝 最新記事</h2>
-          <div class="article-grid">
-            
-    <a href="/articles/berupupe-super-darling-engagement-manga-free-2026.01.19.2053/" class="article-card">
-      <img src="https://comic-review-navi.com/articles/berupupe-super-darling-engagement-manga-free-2026.01.19.2053/images/eyecatch-800.webp" alt="ベルプペーのスパダリ婚約漫画を無料で読む方法とは？" loading="lazy">
-      <div class="article-card-content">
-        <span class="article-category">少年漫画</span>
-        <h3>ベルプペーのスパダリ婚約漫画を無料で読む方法とは？</h3>
-        <p class="article-date">2026-01-19</p>
-      </div>
-    </a>
-
-    <a href="/articles/ipad-case/" class="article-card">
-      <img src="https://raw.githubusercontent.com/papa123papa123/Lovable-Auto-Blog/main/sites/comic-review-navi.com/articles/ipad-/images/eyecatch-350.webp?token=BTPWFAPGA2NPWGR4T7KTCKLJMP7MO" alt="iPadケース選びの安心基準｜100均や非純正の安全性、サイズ・熱・ペンシルの疑問を解決" loading="lazy">
-      <div class="article-card-content">
-        <span class="article-category">グッズレビュー</span>
-        <h3>iPadケース選びの安心基準｜100均や非純正の安全性、サイズ・熱・ペンシルの疑問を解決</h3>
-        <p class="article-date">2026-01-19</p>
-      </div>
-    </a>
-
-    <a href="/articles/ipad-cases/" class="article-card">
-      <img src="https://raw.githubusercontent.com/papa123papa123/Lovable-Auto-Blog/main/sites/comic-review-navi.com/articles/ipad-cases/images/eyecatch-350.webp" alt="iPadケース選びで迷ったら？裸で使うリスクや100均の品質、世代別の互換性を徹底解説" loading="lazy">
-      <div class="article-card-content">
-        <span class="article-category">グッズレビュー</span>
-        <h3>iPadケース選びで迷ったら？裸で使うリスクや100均の品質、世代別の互換性を徹底解説</h3>
-        <p class="article-date">2026-01-19</p>
-      </div>
-    </a>
-
-    <a href="/articles/iphone-latest-2026.01.15.2235/" class="article-card">
-      <img src="https://comic-review-navi.com/articles/iphone-latest-2026.01.15.2235/images/eyecatch-350.webp" alt="iPhoneの選び方で失敗しない？あなたに最適なモデルを徹底解説" loading="lazy">
-      <div class="article-card-content">
-        <span class="article-category">グッズレビュー</span>
-        <h3>iPhoneの選び方で失敗しない？あなたに最適なモデルを徹底解説</h3>
-        <p class="article-date">2026-01-19</p>
-      </div>
-    </a>
-
-    <a href="/articles/kimetsu-free/" class="article-card">
-      <img src="https://comic-review-navi.com/articles/kimetsu-free/images/eyecatch-350.webp" alt="「鬼滅の刃」の漫画を無料違法サイトで開いたら？見るだけで捕まるリスクや対処法を解説" loading="lazy">
-      <div class="article-card-content">
-        <span class="article-category">グッズレビュー</span>
-        <h3>「鬼滅の刃」の漫画を無料違法サイトで開いたら？見るだけで捕まるリスクや対処法を解説</h3>
-        <p class="article-date">2026-01-19</p>
-      </div>
-    </a>
-
-    <a href="/articles/laptop-asus-gaming-2026.01.18.0046/" class="article-card">
-      <img src="https://comic-review-navi.com/articles/laptop-asus-gaming-2026.01.18.0046/images/eyecatch-350.webp" alt="ASUSゲーミングノートパソコン選び方：失敗しないための疑問を解決" loading="lazy">
-      <div class="article-card-content">
-        <span class="article-category">グッズレビュー</span>
-        <h3>ASUSゲーミングノートパソコン選び方：失敗しないための疑問を解決</h3>
-        <p class="article-date">2026-01-19</p>
-      </div>
-    </a>
+          <div class="article-grid" id="article-grid">
+            <!-- 記事はJavaScriptで動的に読み込まれます -->
           </div>
         </div>
       </section>
@@ -224,5 +166,113 @@
         <p>© 2024 漫画レビューナビ All Rights Reserved.</p>
       </div>
     </footer>
+
+    <script>
+      (function() {
+        const articleGrid = document.getElementById('article-grid');
+        
+        // feed.xmlとsitemap.xmlの両方からデータを取得
+        Promise.all([
+          fetch('/feed.xml').then(r => r.text()),
+          fetch('/sitemap.xml').then(r => r.text())
+        ])
+          .then(([feedXml, sitemapXml]) => {
+            const parser = new DOMParser();
+            const feedDoc = parser.parseFromString(feedXml, 'text/xml');
+            const sitemapDoc = parser.parseFromString(sitemapXml, 'text/xml');
+            
+            const feedItems = feedDoc.getElementsByTagName('item');
+            const sitemapUrls = sitemapDoc.getElementsByTagName('url');
+            
+            // sitemap.xmlからlastmodをマッピング
+            const lastmodMap = {};
+            for (let i = 0; i < sitemapUrls.length; i++) {
+              const url = sitemapUrls[i];
+              const loc = url.getElementsByTagName('loc')[0]?.textContent || '';
+              const lastmod = url.getElementsByTagName('lastmod')[0]?.textContent || '';
+              if (loc && lastmod) {
+                lastmodMap[loc] = lastmod;
+              }
+            }
+            
+            // 記事データを配列に格納
+            const articles = [];
+            for (let i = 0; i < feedItems.length; i++) {
+              const item = feedItems[i];
+              const title = item.getElementsByTagName('title')[0]?.textContent || '';
+              const link = item.getElementsByTagName('link')[0]?.textContent || '';
+              const pubDate = item.getElementsByTagName('pubDate')[0]?.textContent || '';
+              const category = item.getElementsByTagName('category')[0]?.textContent || '';
+              
+              // URLからスラッグを抽出
+              const slug = link.split('/articles/')[1]?.replace(/\/+$/, '') || '';
+              
+              // 画像URLを生成（スラッグから）
+              const imageUrl = slug 
+                ? `https://comic-review-navi.com/articles/${slug}/images/eyecatch-800.webp`
+                : '/placeholder.svg';
+              
+              // 更新日を取得（sitemap.xmlのlastmodを優先、なければpubDate、それもなければスラッグから抽出）
+              let updateDate = lastmodMap[link] || pubDate;
+              
+              // スラッグから日付を抽出（例：2026.01.19.2053）
+              if (!updateDate || updateDate === pubDate) {
+                const dateMatch = slug.match(/(\d{4})\.(\d{2})\.(\d{2})\.(\d{4})/);
+                if (dateMatch) {
+                  const [, year, month, day] = dateMatch;
+                  updateDate = `${year}-${month}-${day}`;
+                }
+              }
+              
+              articles.push({
+                title: title,
+                link: link,
+                updateDate: updateDate,
+                category: category,
+                slug: slug,
+                imageUrl: imageUrl
+              });
+            }
+            
+            // 更新日の新しい順にソート
+            articles.sort((a, b) => {
+              const dateA = new Date(a.updateDate);
+              const dateB = new Date(b.updateDate);
+              // 日付が同じ場合は、スラッグのタイムスタンプで比較
+              if (dateA.getTime() === dateB.getTime()) {
+                const timeA = a.slug.match(/\.(\d{4})$/) ? parseInt(a.slug.match(/\.(\d{4})$/)[1]) : 0;
+                const timeB = b.slug.match(/\.(\d{4})$/) ? parseInt(b.slug.match(/\.(\d{4})$/)[1]) : 0;
+                return timeB - timeA;
+              }
+              return dateB - dateA; // 新しい順
+            });
+            
+            // 記事カードHTMLを生成
+            if (articles.length === 0) {
+              articleGrid.innerHTML = '<p>記事はまだありません。</p>';
+              return;
+            }
+            
+            articleGrid.innerHTML = articles.map(article => {
+              // リンクを相対パスに変換
+              const relativeLink = article.link.replace('https://comic-review-navi.com', '');
+              
+              return `
+                <a href="${relativeLink}" class="article-card">
+                  <img src="${article.imageUrl}" alt="${article.title}" loading="lazy" onerror="this.src='/placeholder.svg'">
+                  <div class="article-card-content">
+                    <span class="article-category">${article.category}</span>
+                    <h3>${article.title}</h3>
+                  </div>
+                </a>
+              `;
+            }).join('');
+          })
+          .catch(error => {
+            console.error('記事の読み込みに失敗:', error);
+            articleGrid.innerHTML = '<p>記事の読み込みに失敗しました。</p>';
+          });
+      })();
+    </script>
   </body>
 </html>
